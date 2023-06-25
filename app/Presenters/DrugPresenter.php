@@ -75,7 +75,7 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
 
     public function addFormSucceeded(Form $form, array $data): void
     {
-        $podcast = $this->facade->getAllDrugs()->insert($data); // add record to database
+        $drug = $this->facade->getAllDrugs()->insert($data); // add record to database
         $this->flashMessage('Successfully added');
         $this->forward('Drug:tablecontents');
     }
