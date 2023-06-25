@@ -1,0 +1,44 @@
+{layout '../layout.latte'}
+{block content}
+    <div  hx-target="this" hx-swap= "outerHTML">
+
+        <div class = "container">
+            <div class ="py-5">
+                <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+                <button  hx-get = "{link Drug:add}">Add new prescription drug</button>
+                <table class = "table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope= "col">Podcast Title</th>
+                        <th scope = "col" class ="text-center">Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr n:foreach="$drugs as $drug" class="podcast">
+                        <td> {$drug->name}</td>
+
+                        <td class = "text-center">
+                            <button class="icon-button" hx-get = " {link Drug:show $drug->id_drug} ">
+                                <img class="icon" src="{$basePath}/img/view_icon.png" alt="View Icon">
+                            </button>
+
+                            <button class="icon-button">
+                                <img class="icon" src="{$basePath}/img/edit_icon.png" alt="Edit Icon">
+                            </button>
+
+                            <button class="icon-button">
+                                <img class="icon" src="{$basePath}/img/delete_icon.png" alt="Delete Icon">
+                            </button>
+
+
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+{/block}

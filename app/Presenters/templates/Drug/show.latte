@@ -1,0 +1,19 @@
+
+
+<div hx-target="this" hx-swap="outerHTML" class ="py-5">
+    <div class ="container" >
+
+
+        <h2>Podcast Details</h2>
+
+
+
+
+
+        <h1 n:block="title">{$drugs->name}</h1>
+
+        <p>{$drugs->description}
+        </p>
+        <div><button hx-get = "{link Drug:tablecontents}">Back to Drug preview</button></div>
+
+    </div>
