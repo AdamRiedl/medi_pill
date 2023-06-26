@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use App\Models\NewsFacade;
 use Nette;
+use App\Models\NewsFacade;
 final class HomePresenter extends Nette\Application\UI\Presenter
 {
 
-    private $facade;
-
-    public function __construct(NewsFacade $facade)
-    {
-        $this->facade = $facade;
-    }
+    /**
+     * @inject
+     * @var NewsFacade
+     */
+    public $facade;
 
 
     public function renderWelcome(): void

@@ -2,7 +2,6 @@
 
 
 namespace App\Models;
-
 use Nette;
 
 
@@ -12,6 +11,11 @@ final class NewsFacade
         private Nette\Database\Explorer $database,
     ){
 
+    }
+
+    public function getAllNews(){
+        return $this->database
+            ->table('news');
     }
 
     public function getNewsSorted(){

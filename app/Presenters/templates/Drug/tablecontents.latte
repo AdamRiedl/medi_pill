@@ -5,7 +5,7 @@
         <div class = "container">
             <div class ="py-5">
                 <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
-                <button  hx-get = "{link Drug:add}">Add new prescription drug</button>
+                <a class="button"  href = "{link Drug:add}">Add new prescription drug</a>
                 <table class = "table table-striped">
                     <thead>
                     <tr>

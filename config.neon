@@ -1,0 +1,7 @@
+parameters:
+
+services:
+    - App\Models\NewsFacade
+    - App\Presenters\DrugPresenter
+    - App\Presenters\HomePresenter
+    - App\Forms\DrugFormFactory

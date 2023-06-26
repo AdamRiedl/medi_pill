@@ -5,11 +5,13 @@ use Nette;
 use Nette\Application\UI\Form;
 use Contributte\FormsBootstrap\BootstrapForm;
 use Contributte\FormsBootstrap\Enums;
+use App\Forms\DrugFormFactory;
 use App\Models\DrugFacade;
 
 
 class DrugPresenter extends Nette\Application\UI\Presenter{
     private $facade;
+    //TODO DI instead of constructor
     public function __construct(DrugFacade $facade)
     {
         $this->facade = $facade;
@@ -36,42 +38,9 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
 
     protected function createComponentDrugForm(): Form
     {
-        BootstrapForm::switchBootstrapVersion(Enums\BootstrapVersion::V5);
-        $form = new BootstrapForm;
-
-        $form->addText('name', 'Title:')
-            ->setRequired();
-        $form->addTextArea('description', 'Content:')
-            ->setRequired();
-        $form->addTextArea('side_effects', 'Side Effects:')
-            ->setRequired();
-
-        if ($this->getAction() === 'add'){
-
-            $form->addButton('placeholder','Save')
-                ->setHtmlAttribute('hx-post','/drug/add/')
-                ->setHtmlAttribute('style', '
-                    padding: 12.5px 30px;
-    border: 0;
-    border-radius: 100px;
-    background-color: #4926F9;
-    color: #ffffff;
-    font-weight: Bold;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-                ')                ->setOmitted();
-
-        } elseif ($this->getAction() === 'edit'){
-
-            $form->addButton('placeholder','Save changes')
-                ->setHtmlAttribute('hx-post','/drug/edit?drugID='.$this->getParameter('drugID'))
-                ->setOmitted();
-
-        }
-
-
-        return $form;
+        return DrugFormFactory::createForm($this->getAction(), $this->getParameter('drugID'));
     }
+
 
     public function addFormSucceeded(Form $form, array $data): void
     {

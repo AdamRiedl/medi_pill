@@ -15,9 +15,9 @@
                             Monitor your prescriptions, set reminders, and gain valuable insights into your well-being,
                             ensuring you stay on top of your health goals with ease.
                         </p>
-                        <button>
+                        <a class="button">
                             Join Today
-                        </button>
+                        </a>
                     </div>
                     <img
                             class="img-fluid w-50 d-none d-sm-block"
@@ -42,7 +42,7 @@
                                 <p class="card-text">
                                     {$n->description|truncate:100}
                                 </p>
-                                <a href="#" class="btn btn-dark">Read More</a>
+                                <a href="{link News:show $n->id_news}" class="btn btn-dark">Read More</a>
                             </div>
                         </div>
                     </div>

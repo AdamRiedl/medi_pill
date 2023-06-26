@@ -9,5 +9,4 @@ search:
 services:
 	- App\Router\RouterFactory::createRouter
 	- App\Models\AccountFacade
-	- App\Models\NewsFacade
 	- App\Models\DrugFacade
