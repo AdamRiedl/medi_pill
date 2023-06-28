@@ -16,6 +16,8 @@ final class DrugFacade
     public function getAllDrugs()
     {
         return $this->database
-            ->table('drug');
+            ->table('drug')
+            ->select('*');
+
     }
 }

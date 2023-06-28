@@ -2,23 +2,23 @@
 
 
 namespace App\Models;
-
 use Nette;
 
 
 
 final class AccountFacade
 {
-
-    /*
-     * @inject
-     * @var Explorer
-     */
-    private $database;
+    public function __construct(
+        private Nette\Database\Explorer $database,
+    )
+    {
+    }
 
 
     public function getAllAccounts(){
         return $this->database
-            ->table('account');
+            ->table('account')
+            ->select('*')
+            ->fetchAll();
     }
 }

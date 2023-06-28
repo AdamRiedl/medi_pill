@@ -9,14 +9,14 @@ use Nette\Application\Application;
 
 final class NewsPresenter extends Nette\Application\UI\Presenter
 {
-    private $facade;
-    //TODO DI instead of constructor
 
 
-    public function __construct(NewsFacade $facade)
-    {
-        $this->facade = $facade;
-    }
+    /**
+     * @inject
+     * @var NewsFacade
+     */
+    public $facade;
+
 
 
     public function renderShow($newsID): void

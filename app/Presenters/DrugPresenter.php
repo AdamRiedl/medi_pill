@@ -10,12 +10,15 @@ use App\Models\DrugFacade;
 
 
 class DrugPresenter extends Nette\Application\UI\Presenter{
-    private $facade;
-    //TODO DI instead of constructor
-    public function __construct(DrugFacade $facade)
-    {
-        $this->facade = $facade;
-    }
+
+
+    /**
+     * @inject
+     * @var DrugFacade
+     */
+
+    public $facade;
+
 
     public function renderTableContents(): void
     {
@@ -35,6 +38,22 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
         $form->onSuccess[] = [$this, 'addFormSucceeded'];
     }
 
+    public function actionEdit(int $drugID): void
+    {
+        $drug = $this->facade->getAllDrugs()->get($drugID);
+        $form = $this->getComponent('drugForm');
+        $form->setDefaults($drug);
+        $form->onSuccess[] = [$this, 'editFormSucceeded'];
+    }
+
+    public function actionDelete(int $drugID): void
+    {
+        $drug = $this->facade->getAllDrugs()->get($drugID);
+        $form = $this->getComponent('drugForm');
+        $form->setDefaults($drug->toArray());
+        $form->onSuccess[] = [$this, 'deleteFormSucceeded'];
+    }
+
 
     protected function createComponentDrugForm(): Form
     {
@@ -46,6 +65,55 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
     {
         $drug = $this->facade->getAllDrugs()->insert($data); // add record to database
         $this->flashMessage('Successfully added');
+        $this->forward('Drug:tablecontents');
+    }
+
+    public function editFormSucceeded(Form $form, array $data): void
+    {
+        $drugID = (int) $this->getParameter('drugID');
+        $this->facade->getAllDrugs()->get($drugID)->update($data);
+        $this->flashMessage('Succesfully updated');
+        $this->forward('Drug:tablecontents');
+    }
+
+    protected function createComponentDeleteForm(): Form
+    {
+        //TODO factory doesnt work (without factory working as intended)
+        return DrugFormFactory::createDeleteForm($this->getParameter('drugID'));
+    }
+
+    public function renderDelete(int $drugID): void
+    {
+        $drug = $this->facade->getAllDrugs()->get($drugID);
+
+
+        if (!$drug) {
+            $this->error('Podcast not found');
+        }
+        $this->template->drug = $drug;
+        $this->getComponent('deleteForm')
+            ->setDefaults($drug->toArray());
+    }
+
+    public function deleteFormSucceeded(Form $form, array $data): void
+    {
+        $drugID = (int) $this->getParameter('drugID');
+
+        if ($drugID) {
+            $drug = $this->facade->getAllDrugs()->get($drugID);
+            $drug->delete();
+
+
+            $this->flashMessage('Drug has been deleted.');
+        }
+        else{
+            $this->flashMessage('Drug not found.');
+        }
+        $this->forward('Drug:tablecontents');
+    }
+
+    public function actionCancelled(): void
+    {
         $this->forward('Drug:tablecontents');
     }
 
