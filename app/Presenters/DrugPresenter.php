@@ -6,7 +6,7 @@ use Nette\Application\UI\Form;
 use Contributte\FormsBootstrap\BootstrapForm;
 use Contributte\FormsBootstrap\Enums;
 use App\Forms\DrugFormFactory;
-use App\Models\DrugFacade;
+use App\Repositories\DataRepository;
 
 
 class DrugPresenter extends Nette\Application\UI\Presenter{
@@ -14,22 +14,28 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
 
     /**
      * @inject
-     * @var DrugFacade
+     * @var DataRepository
+     */
+    public DataRepository $dataRepository;
+
+    /**
+     * @inject
+     * @var DrugFormFactory
      */
 
-    public $facade;
+    public DrugFormFactory $drugFormFactory;
+
 
 
     public function renderTableContents(): void
     {
-        $this->template->drugs = $this->facade
+        $this->template->drugs = $this->dataRepository
             ->getAllDrugs();
     }
 
     public function renderShow($drugID): void
     {
-        $this->template->drugs = $this->facade
-            ->getAllDrugs()->get($drugID);
+        $this->template->drugs = $this->dataRepository->getDrugById($drugID);
     }
 
     public function actionAdd(): void
@@ -40,30 +46,38 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
 
     public function actionEdit(int $drugID): void
     {
-        $drug = $this->facade->getAllDrugs()->get($drugID);
+        $drug = $this->dataRepository->getDrugById($drugID);
         $form = $this->getComponent('drugForm');
         $form->setDefaults($drug);
         $form->onSuccess[] = [$this, 'editFormSucceeded'];
     }
 
+    //TODO doesnt work
+
     public function actionDelete(int $drugID): void
     {
-        $drug = $this->facade->getAllDrugs()->get($drugID);
-        $form = $this->getComponent('drugForm');
-        $form->setDefaults($drug->toArray());
-        $form->onSuccess[] = [$this, 'deleteFormSucceeded'];
+        $confirmed = isset($_SERVER['HTTP_X_CONFIRMED']); // Check if the confirmation header is set
+
+        if ($confirmed) {
+            $this->dataRepository->deleteDrug($drugID);
+            $this->flashMessage('Drug successfully deleted.', 'success');
+        } else {
+            $this->flashMessage('Drug deletion canceled.', 'info');
+        }
+
+        $this->redirect('Drug:tablecontents');
     }
 
 
     protected function createComponentDrugForm(): Form
     {
-        return DrugFormFactory::createForm($this->getAction(), $this->getParameter('drugID'));
+      return $this->drugFormFactory->createForm($this->getAction(), $this->getParameter('drugID'));
     }
 
 
     public function addFormSucceeded(Form $form, array $data): void
     {
-        $drug = $this->facade->getAllDrugs()->insert($data); // add record to database
+        $drug = $this->dataRepository->addDrug($data); // add record to database
         $this->flashMessage('Successfully added');
         $this->forward('Drug:tablecontents');
     }
@@ -71,44 +85,8 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
     public function editFormSucceeded(Form $form, array $data): void
     {
         $drugID = (int) $this->getParameter('drugID');
-        $this->facade->getAllDrugs()->get($drugID)->update($data);
+        $this->dataRepository->updateDrug($drugID,$data);
         $this->flashMessage('Succesfully updated');
-        $this->forward('Drug:tablecontents');
-    }
-
-    protected function createComponentDeleteForm(): Form
-    {
-        //TODO factory doesnt work (without factory working as intended)
-        return DrugFormFactory::createDeleteForm($this->getParameter('drugID'));
-    }
-
-    public function renderDelete(int $drugID): void
-    {
-        $drug = $this->facade->getAllDrugs()->get($drugID);
-
-
-        if (!$drug) {
-            $this->error('Podcast not found');
-        }
-        $this->template->drug = $drug;
-        $this->getComponent('deleteForm')
-            ->setDefaults($drug->toArray());
-    }
-
-    public function deleteFormSucceeded(Form $form, array $data): void
-    {
-        $drugID = (int) $this->getParameter('drugID');
-
-        if ($drugID) {
-            $drug = $this->facade->getAllDrugs()->get($drugID);
-            $drug->delete();
-
-
-            $this->flashMessage('Drug has been deleted.');
-        }
-        else{
-            $this->flashMessage('Drug not found.');
-        }
         $this->forward('Drug:tablecontents');
     }
 

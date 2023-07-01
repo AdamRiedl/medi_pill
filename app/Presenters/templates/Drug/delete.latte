@@ -1,21 +1,8 @@
+<h2>Confirm Delete</h2>
+<p>Are you sure you want to delete the drug with ID: {$drugID}?</p>
 
-<div hx-target="this" hx-swap="outerHTML" class ="py-5">
-    <article class="container">
-        <h1>Delete Podcast</h1>
-
-        <p>Are you sure that you want to delete {$drug->name} ?</p>
-        <form n:name=deleteForm class=form>
-
-            <div class="row">
-                <div class="col-md-2">
-                    <button n:name=delete class="button" >Delete</button>
-                </div>
-                <div class="col-md-2">
-                    <button n:name=cancel class="button">Cancel</button>
-                </div>
-
-
-        </form>
-
-</div>
-</article>
+<form method="post">
+    <input type="hidden" name="confirmed" value="1" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{link 'Drug:tablecontents'}" class="btn btn-secondary">Cancel</a>
+</form>

@@ -8,5 +8,12 @@
         </LatteVariableSettings>
       </list>
     </option>
+    <customMacroSettings>
+      <list>
+        <LatteTagSettings DeprecatedMessage="" MacroName="script" MacroType="PAIR">
+          <option name="vendor" value="OTHER" />
+        </LatteTagSettings>
+      </list>
+    </customMacroSettings>
   </component>
 </project>

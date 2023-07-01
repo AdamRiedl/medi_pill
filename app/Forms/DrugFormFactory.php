@@ -36,19 +36,4 @@ class DrugFormFactory
         return $form;
     }
 
-    public static function createDeleteForm($drugID = null) : Form
-    {
-        BootstrapForm::switchBootstrapVersion(Enums\BootstrapVersion::V5);
-        $form = new BootstrapForm;
-
-        $form->addButton('cancel','Cancel')
-            ->setHtmlAttribute('hx-post','/drug/cancelled/')
-            ->setOmitted();
-        //TODO i cannot do the cancel button in delete.latte as <a></a> the cancel is normal and can be styled but the delete doesnt have any text
-        $form->addButton('delete')
-            ->setHtmlAttribute('hx-post','/drug/delete?drugID='.$drugID)
-            ->setOmitted();
-
-        return $form;
-    }
 }

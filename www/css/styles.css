@@ -2,6 +2,10 @@ body{
     padding-top: 70px;
 }
 
+.top_padding{
+    padding-top: 30px;
+}
+
 .headline{
     color: #4926F9;
 }
@@ -54,8 +58,7 @@ a.button:active {
     cursor: pointer;
 }
 .icon-button:hover{
-    background-color: rgba(255, 255, 255, 0.75);
-    box-shadow: 0 0 20px #6fc5ff50;
+    -webkit-transition: all 0.25s;
     transform: scale(1.1);
 }
 
@@ -64,6 +67,16 @@ a.button:active {
     height: 32px;
     fill: #000;
 }
+
+.icon-contact
+{
+    width: 50px;
+    height: 50px;
+    fill: #000;
+}
+
+
+
 .custom-button {
     background-color: #f2f2f2;
     color: #333333;

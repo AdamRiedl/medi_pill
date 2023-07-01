@@ -1,0 +1,48 @@
+{layout '../layout.latte'}
+{block content}
+    <div class="top_padding">
+    <div class="container">
+        <h1>My Portfolio</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>About Me</h2>
+                <p>
+                    Hello, I'm Adam, a passionate developer who is eager to learn new things every day.
+                    I enjoy working on various projects and exploring new technologies to solve real-world problems.
+                </p>
+
+                <h2>Contact Information</h2>
+                <ul>
+                    <li>Email: email@email.cz</li>
+                    <li>Phone: 123456789</li>
+                </ul>
+                <h2>Connect with Me</h2>
+                <ul>
+                    <li>
+                        GitHub: <a href="https://github.com/AdamRiedl">
+                            <img class="icon-contact" src="{$basePath}/img/github_icon.png" alt="View Icon">
+                        </a>
+                    </li>
+                    <li>
+                        LinkedIn: <a href="https://github.com/AdamRiedl">
+                        <img class="icon-contact" src="{$basePath}/img/linkedin_icon.png" alt="View Icon">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h2>My Projects</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="[Project Image 1 URL]" alt="Project 1">
+                    </div>
+                    <div class="col-md-6">
+                        <img src="[Project Image 2 URL]" alt="Project 2">
+                    </div>
+                    <div><a class="button"  href = "{link Home:welcome}">Back to Home</a></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}

@@ -32,10 +32,9 @@
                             </button>
                             <!-- From some reason hx-get works with bootstrap just fine but href doesn't -->
 
-                            <button class="icon-button" hx-get = "{link Drug:delete $drug->id_drug}">
+                            <button class="icon-button" hx-get="{link Drug:delete, $drug->id_drug}" onclick="showConfirmation()">
                                 <img class="icon" src="{$basePath}/img/delete_icon.png" alt="Delete Icon">
                             </button>
-
 
                         </td>
                     </tr>
@@ -45,4 +44,6 @@
                 </table>
             </div>
         </div>
+
+
 {/block}

@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" href="{$basePath}/css/styles.css">
 	<link rel ="stylesheet" href="https://bootswatch.com/5/spacelab/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<title>{ifset title}{include title|stripHtml} | {/ifset}MediPill</title>
 
@@ -32,10 +33,11 @@
 
 
 				<li class="nav-item">
-					<a href="#questions" class="nav-link">Learn More</a>
+					<a n:href="LearnMore:show" class="nav-link">Learn More</a>
 				</li>
+				<!-- zkusit nette komponent misto bootsrapu -->
 				<li class="nav-item">
-					<a href="#instructors" class="nav-link">About</a>
+					<a n:href="AboutMe:show" class="nav-link">About</a>
 				</li>
 			</ul>
 		</div>

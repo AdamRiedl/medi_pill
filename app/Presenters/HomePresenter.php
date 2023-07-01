@@ -4,24 +4,25 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Repositories\NewsRepository;
 use Nette;
-use App\Models\NewsFacade;
+
 final class HomePresenter extends Nette\Application\UI\Presenter
 {
 
+
     /**
      * @inject
-     * @var NewsFacade
+     * @var NewsRepository
      */
-    public $facade;
+
+    public NewsRepository $newsRepository;
 
 
-    public function renderWelcome(): void
+    public function renderWelcome($newsID): void
     {
-        $this->template->news = $this->facade
-            ->getNewsSorted();
+        $this->template->news = $this->newsRepository->getNewsSorted();
 
     }
-
 
 }
