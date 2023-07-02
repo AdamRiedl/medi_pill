@@ -30,7 +30,7 @@ class NewsRepository implements NewsInterface
             ->table('news')
             ->select('*')
             ->order('date_of_news DESC')
-            ->limit(3)
+            ->limit(4)
             ->fetchAll();
     }
 

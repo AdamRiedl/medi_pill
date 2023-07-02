@@ -27,9 +27,14 @@
 
 		<div class="collapse navbar-collapse" id="navmenu">
 			<ul class="navbar-nav ms-auto">
+			{if $user->isLoggedIn()}
+				<li class="nav-item"><a href = "{link Drug:tablecontents}" class="nav-link"> My Collection</a></li>
+				<li class="nav-item"><a n:href = "Sign:out" class ="nav-link" >Sign out</a></li>
+			{else}
+				<li class="nav-item"><a n:href = "Sign:in" class="nav-link"> Sign in</a></li>
+				<li class="nav-item"><a n:href = "Sign:up" class ="nav-link" >Sign up</a></li>
 
-
-				<li class="nav-item"><a href = "{link Drug:tablecontents}" class ="nav-link" >My Collection</a></li>
+			{/if}
 
 
 				<li class="nav-item">

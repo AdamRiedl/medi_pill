@@ -1,6 +1,9 @@
 body{
     padding-top: 70px;
 }
+.card{
+    height: 100%;
+}
 
 .top_padding{
     padding-top: 30px;
@@ -75,14 +78,75 @@ a.button:active {
     fill: #000;
 }
 
-
-
-.custom-button {
-    background-color: #f2f2f2;
-    color: #333333;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    /* Add more styles as needed */
+/*************************************************BOXES********************************************/
+/* Custom CSS for the section */
+.my-section {
+    padding: 5rem;
 }
+
+/* Custom CSS for the container */
+.my-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Custom CSS for the row */
+.my-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Custom CSS for the columns */
+.my-col-md {
+    flex: 0 0 calc(25% - 1rem);
+    display: flex;
+}
+
+/* Custom CSS for the card */
+.my-card {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Custom CSS for the card body */
+.my-card-body {
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Custom CSS for the card title */
+.my-card-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Custom CSS for the card text */
+.my-card-text {
+    color: #555;
+}
+
+/* Custom CSS for the button */
+.my-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+.my-button:hover {
+    background-color: #0056b3;
+}
+
+/*************************************************BOXES********************************************/

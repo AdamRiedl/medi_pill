@@ -15,7 +15,7 @@
                             Monitor your prescriptions, set reminders, and gain valuable insights into your well-being,
                             ensuring you stay on top of your health goals with ease.
                         </p>
-                        <a class="button">
+                        <a class="my-button" n:href="Sign:up">
                             Join Today
                         </a>
                     </div>
@@ -28,21 +28,21 @@
             </div>
         </section>
         <!-- Boxes -->
-        <section class="p-5">
-            <div class="container">
-                <div class="row text-center g-4" >
+        <section class="my-section">
+            <div class="my-container">
+                <div class="my-row my-text-center my-g-4">
 
-                    <div n:foreach ="$news as $n" class="col-md" >
-                        <div class="card bg-secondary text-light" >
-                            <div class="card-body text-center">
-                                <div class="mb-3">
-                                    <i class="bi bi-person-square"></i>
+                    <div n:foreach="$news as $n" class="my-col-md">
+                        <div class="my-card">
+                            <div class="my-card-body my-text-center">
+                                <div class="my-mb-3">
+                                    <i class="my-bi my-bi-person-square"></i>
                                 </div>
-                                <h3 class="card-title mb-3">{$n->title}</h3>
-                                <p class="card-text">
+                                <h3 class="my-card-title my-mb-3">{$n->title}</h3>
+                                <p class="my-card-text">
                                     {$n->description|truncate:100}
                                 </p>
-                                <a href="{link News:show $n->id_news}" class="button">Read More</a>
+                                <a href="{link News:show $n->id_news}" class="my-button">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -50,5 +50,6 @@
                 </div>
             </div>
         </section>
+
     </div>
 {/block}

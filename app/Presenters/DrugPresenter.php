@@ -7,6 +7,8 @@ use Contributte\FormsBootstrap\BootstrapForm;
 use Contributte\FormsBootstrap\Enums;
 use App\Forms\DrugFormFactory;
 use App\Repositories\DataRepository;
+use App\Model\MediPillAuthenticator;
+
 
 
 class DrugPresenter extends Nette\Application\UI\Presenter{
@@ -29,8 +31,18 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
 
     public function renderTableContents(): void
     {
-        $this->template->drugs = $this->dataRepository
-            ->getAllDrugs();
+        if (!$this->getUser()->isLoggedIn()) {
+            // Redirect unauthenticated users to the login page or display an error message
+            $this->flashMessage('You must be logged in to access this page.');
+            $this->redirect('Sign:in'); // Adjust to your login page route
+        }else {
+            $user = $this->getUser();
+            if ($user->isInRole('admin')) {
+                $this->template->drugs = $this->dataRepository->getAllDrugs();
+            } elseif ($user->isInRole('user')) {
+                $this->template->drugs = $this->dataRepository->getAllDrugsByAccountId($user->getId());
+            }
+        }
     }
 
     public function renderShow($drugID): void
