@@ -2,13 +2,16 @@
 
 namespace App\Presenters;
 
+use App\Repositories\DataRepository;
 use Nette;
+use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Contributte\FormsBootstrap\BootstrapForm;
 use Contributte\FormsBootstrap\Enums;
 use App\Model\MediPillAuthenticator;
 use Nette\Application\UI\Presenter;
 use Nette\Security\AuthenticationException;
+use App\Repositories\DatabaseRepository;
 
 
 final class SignPresenter extends Nette\Application\UI\Presenter
@@ -18,6 +21,25 @@ final class SignPresenter extends Nette\Application\UI\Presenter
     public function __construct(MediPillAuthenticator $authenticator)
     {
         $this->authenticator = $authenticator;
+    }
+
+    /**
+     * @inject
+     * @var DataRepository
+     */
+
+    public DataRepository $dataRepository;
+
+
+    public function startup(): void
+    {
+        parent::startup();
+
+        if (!$this->getUser()->isLoggedIn() && !$this->presenter->isLinkCurrent('Sign:in'))
+        {
+            $this->flashMessage('This section is forbidden until logged');
+            $this->redirect("Sign:in");
+        }
     }
 
     //TODO factory

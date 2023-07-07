@@ -19,7 +19,10 @@ interface DataRepository
 
     public function updateDrug($drugID, array $data): void;
 
+    public function addDrugAccountById($aid,$drugID) : void;
+
     public function deleteDrug($drugID): void;
+
 }
 
 
@@ -64,6 +67,17 @@ class DatabaseRepository implements DataRepository
     public function addDrug(array $data): void
     {
         $this->database->table('drug')->insert($data);
+    }
+
+
+    public function addDrugAccountById($aid,$drugID) : void
+    {
+        $this->database->table('account_drug')->insert(
+            [
+                'id_drug'=>$drugID,
+                'id_account'=>$aid
+            ]
+        );
     }
 
     public function updateDrug($drugID, array $data): void

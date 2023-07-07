@@ -6,3 +6,4 @@ services:
     - App\Forms\DrugFormFactory
     - App\Repositories\DatabaseRepository
     - App\Repositories\NewsRepository
+    - App\Presenters\SignPresenter

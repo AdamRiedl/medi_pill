@@ -1,6 +1,10 @@
 {layout '../layout.latte'}
 {block content}
 <article class="container">
-    <h1> Member Sign in</h1>
-    {control signinForm}
+
+    <h1>Sign in</h1>
+    <div class="flash-message" n:if="$flashes" n:foreach="$flashes as $flash"}>
+        {$flash->message}
+    </div>
+        {control signinForm}
 </article>

@@ -56,7 +56,10 @@ class MediPillAuthenticator implements Nette\Security\Authenticator
             ->table('account')
             ->select('id_account')
             ->where('login_name', $login_name)
-            ->fetch();
+            ->fetch();   $user = $this->getUser();
+
+
+
 
         $this->database
             ->table('account_role')

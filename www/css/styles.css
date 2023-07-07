@@ -150,3 +150,29 @@ a.button:active {
 }
 
 /*************************************************BOXES********************************************/
+
+
+.flash-message {
+    background-color: #f44336;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.flash-message.success {
+    background-color: #4CAF50;
+}
+
+.flash-message.warning {
+    background-color: #ff9800;
+}
+
+.flash-message.info {
+    background-color: #2196F3;
+}
+
+.flash-message.error {
+    background-color: #f44336;
+}
+

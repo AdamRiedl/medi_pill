@@ -27,7 +27,16 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
 
     public DrugFormFactory $drugFormFactory;
 
+    public function startup(): void
+    {
+        parent::startup();
 
+        if (!$this->getUser()->isLoggedIn() && !$this->presenter->isLinkCurrent('Sign:in'))
+        {
+            $this->flashMessage('This section is forbidden until logged');
+            $this->redirect("Sign:in");
+        }
+    }
 
     public function renderTableContents(): void
     {
@@ -35,7 +44,7 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
             // Redirect unauthenticated users to the login page or display an error message
             $this->flashMessage('You must be logged in to access this page.');
             $this->redirect('Sign:in'); // Adjust to your login page route
-        }else {
+        } else {
             $user = $this->getUser();
             if ($user->isInRole('admin')) {
                 $this->template->drugs = $this->dataRepository->getAllDrugs();
@@ -47,7 +56,13 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
 
     public function renderShow($drugID): void
     {
-        $this->template->drugs = $this->dataRepository->getDrugById($drugID);
+        if (!$this->getUser()->isLoggedIn()) {
+            // Redirect unauthenticated users to the login page or display an error message
+            $this->flashMessage('You must be logged in to access this page.');
+            $this->redirect('Sign:in'); // Adjust to your login page route
+        }else {
+            $this->template->drugs = $this->dataRepository->getDrugById($drugID);
+        }
     }
 
     public function actionAdd(): void
@@ -90,9 +105,13 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
     public function addFormSucceeded(Form $form, array $data): void
     {
         $drug = $this->dataRepository->addDrug($data); // add record to database
+        $user = $this->getUser();
+        $this->dataRepository->addDrugAccountById($user->getId(),$drug);
         $this->flashMessage('Successfully added');
         $this->forward('Drug:tablecontents');
     }
+
+
 
     public function editFormSucceeded(Form $form, array $data): void
     {
