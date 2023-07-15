@@ -12,11 +12,11 @@ use App\Model\MediPillAuthenticator;
 use Nette\Application\UI\Presenter;
 use Nette\Security\AuthenticationException;
 use App\Repositories\DatabaseRepository;
-
+use App\Forms\SignFormFactory;
 
 final class SignPresenter extends Nette\Application\UI\Presenter
 {
-    private $authenticator;
+    private MediPillAuthenticator $authenticator;
 
     public function __construct(MediPillAuthenticator $authenticator)
     {
@@ -30,73 +30,56 @@ final class SignPresenter extends Nette\Application\UI\Presenter
 
     public DataRepository $dataRepository;
 
+    /**
+     * @inject
+     * @var SignFormFactory
+     */
 
-    public function startup(): void
+    public SignFormFactory $signFormFactory;
+
+
+
+    protected function createComponentSignInForm(): Form
     {
-        parent::startup();
-
-        if (!$this->getUser()->isLoggedIn() && !$this->presenter->isLinkCurrent('Sign:in'))
-        {
-            $this->flashMessage('This section is forbidden until logged');
-            $this->redirect("Sign:in");
-        }
-    }
-
-    //TODO factory
-    protected function createComponentSigninForm(): Form
-    {
-        BootstrapForm::switchBootstrapVersion(Enums\BootstrapVersion::V5);
-        $form = new BootstrapForm;
-        $form->addEmail('email', 'email')
-            ->setRequired('Please enter your email');
-        $form->addPassword('password','Password')
-            ->setRequired('Please enter your password');
-
-        $form->addSubmit('send','Sign In');
-
+        $form = $this->signFormFactory->createSignInForm();
         $form->onSuccess[] = [$this, 'signInFormSucceeded'];
         return $form;
-    }
 
+    }
 
     public function signInFormSucceeded(Form $form, \stdClass $data):void
     {
+
         try{
             $this->getUser()->setAuthenticator($this->authenticator)
                 ->login($data->email, $data->password);
-            $this->redirect('Home:welcome');
+            $user = $this->getUser();
+            $userId = $user->getId();
+
+            $userRoles = $this->authenticator->getUserRoleById($userId);
+            foreach ($userRoles as $userRole) {
+                if ($userRole->name === 'doctor') {
+                    $this->redirect('Doctor:pacientcontents');
+                }
+                elseif ($userRole->name === 'user') {
+                    $this->redirect('Home:welcome');
+
+                }
+            }
 
         }catch (AuthenticationException $e) {
             $form->addError("Incorrect Email of Password");
         }
     }
 
-    //TODO factory
-
-    protected function createComponentSignupForm(): Form
+    protected function createComponentSignUpForm(): Form
     {
-        BootstrapForm::switchBootstrapVersion(Enums\BootstrapVersion::V5);
-        $form = new BootstrapForm;
-        $form->addText('first_name', 'First Name: ')
-            ->setRequired();
-        $form->addText('second_name', 'Last Name: ')
-            ->setRequired();
-        $form->addEmail('email', 'Email: ')
-            ->setRequired();
-        $form->addText('login_name', 'Username: ')
-            ->setRequired();
-        $form->addText('phone_primary', 'Phone number: ')
-            ->setRequired();
-            $passwordInput = $form->addPassword('password', 'Password')
-                ->setRequired('Please Enter a Password');
-            $form->addPassword('pwd2', 'Password (verify)')->setRequired('Please Enter a password for verification')
-                ->addRule($form::EQUAL, 'Password verification failed. Passwords do not match', $passwordInput);
-            $form->addSubmit('send', 'Submit');
-            $form->onSuccess[] = [$this, 'signupFormSucceeded'];
-            return $form;
+        $form = $this->signFormFactory->createSignUpForm();
+        $form->onSuccess[] = [$this, 'signUpFormSucceeded'];
+        return $form;
     }
 
-    public function signupFormSucceeded(array $data):void
+    public function signUpFormSucceeded(array $data):void
     {
         $this->authenticator->createUser($data['first_name'], $data['second_name'], $data['email'],$data['login_name'],$data['password'] ,$data['phone_primary']);
         $this->authenticator->addUserRoleById($data['login_name']);

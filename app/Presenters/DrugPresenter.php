@@ -27,6 +27,15 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
 
     public DrugFormFactory $drugFormFactory;
 
+
+    private MediPillAuthenticator $authenticator;
+    public function __construct(MediPillAuthenticator $authenticator)
+    {
+        $this->authenticator = $authenticator;
+    }
+
+
+    //TODO narvat to do basepresenteru
     public function startup(): void
     {
         parent::startup();
@@ -46,10 +55,20 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
             $this->redirect('Sign:in'); // Adjust to your login page route
         } else {
             $user = $this->getUser();
-            if ($user->isInRole('admin')) {
-                $this->template->drugs = $this->dataRepository->getAllDrugs();
-            } elseif ($user->isInRole('user')) {
-                $this->template->drugs = $this->dataRepository->getAllDrugsByAccountId($user->getId());
+            $userId = $user->getId();
+
+
+            $userRoles = $this->authenticator->getUserRoleById($userId);
+
+            foreach ($userRoles as $userRole) {
+
+                if ($userRole->name === 'admin') {
+                    $this->template->drugs = $this->dataRepository->getAllDrugs();
+                    break;
+                } elseif ($userRole->name === 'user') {
+                    $this->template->drugs = $this->dataRepository->getAllDrugsByAccountId($userId);
+                    break;
+                }
             }
         }
     }
@@ -79,7 +98,7 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
         $form->onSuccess[] = [$this, 'editFormSucceeded'];
     }
 
-    //TODO doesnt work
+    //TODO nefunkcni confirm box udelat pres sweetjs
 
     public function actionDelete(int $drugID): void
     {
@@ -104,9 +123,10 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
 
     public function addFormSucceeded(Form $form, array $data): void
     {
-        $drug = $this->dataRepository->addDrug($data); // add record to database
+        $this->dataRepository->addDrug($data); // add record to database
+        $drugId = $this->dataRepository->getDrugByName($data['name']);
         $user = $this->getUser();
-        $this->dataRepository->addDrugAccountById($user->getId(),$drug);
+        $this->dataRepository->addDrugAccountById($user->getId(),$drugId);
         $this->flashMessage('Successfully added');
         $this->forward('Drug:tablecontents');
     }

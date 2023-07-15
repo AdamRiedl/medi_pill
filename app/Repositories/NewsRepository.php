@@ -10,7 +10,6 @@ interface NewsInterface
 {
     public function getNewsSorted(): array;
 
-    //TODO i guess not ideal
     public function getNewsById($newsID): Nette\Database\Table\ActiveRow;
 
 }

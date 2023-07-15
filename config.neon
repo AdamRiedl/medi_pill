@@ -7,3 +7,4 @@ services:
     - App\Repositories\DatabaseRepository
     - App\Repositories\NewsRepository
     - App\Presenters\SignPresenter
+    - App\Forms\SignFormFactory

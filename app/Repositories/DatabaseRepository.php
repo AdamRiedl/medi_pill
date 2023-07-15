@@ -8,12 +8,15 @@ use Nette;
 
 interface DataRepository
 {
+
+    //TODO interface na veci co se nemeni
     public function getAllDrugs(): array;
 
     public function getAllDrugsByAccountId($aid):array;
 
-    //TODO i guess not ideal
     public function getDrugById($drugID): Nette\Database\Table\ActiveRow;
+
+    public function getDrugByName(string $name): Nette\Database\Table\ActiveRow;
 
     public function addDrug(array $data): void;
 
@@ -42,7 +45,7 @@ class DatabaseRepository implements DataRepository
                 from drug
                 join account_drug on (drug.id_drug  = account_drug.id_drug)
                 join account on (account_drug.id_account = account.id_account)
-                where account.id_account = '".$aid."' "
+                where account.id_account = ".$aid." "
         )
             ->fetchAll();
     }
@@ -67,6 +70,15 @@ class DatabaseRepository implements DataRepository
     public function addDrug(array $data): void
     {
         $this->database->table('drug')->insert($data);
+    }
+
+    public function getDrugByName(string $name): Nette\Database\Table\ActiveRow
+    {
+        return $this->database
+            ->table('drug')
+            ->select('id_drug')
+            ->where('name', $name)
+            ->fetch();
     }
 
 

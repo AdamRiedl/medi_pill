@@ -5,8 +5,8 @@ use Nette;
 
 class MediPillAuthenticator implements Nette\Security\Authenticator
 {
-    private $database;
-    private $passwords;
+    private Nette\Database\Explorer $database;
+    private Nette\Security\Passwords $passwords;
     public function __construct(
         Nette\Database\Explorer $database,
         Nette\Security\Passwords $passwords
@@ -21,11 +21,7 @@ class MediPillAuthenticator implements Nette\Security\Authenticator
             "select account.id_account,account.email,account.password,role.name from account
                 join account_role on (account.id_account = account_role.id_account)
                 join role on (account_role.id_role = role.id_role)
-                where account.email = '".$email."' "
-        )
-            ->fetch();
-
-
+                where account.email = ? ",$email)->fetch();
 
 
         if (!$row){
@@ -50,15 +46,21 @@ class MediPillAuthenticator implements Nette\Security\Authenticator
 
         return $email;
     }
+    public function getUserRoleById($aid): array
+    {
+        return $this->database->query("
+            select role.name from role
+            join account_role on (account_role.id_role  = role.id_role)
+            join account  on (account_role.id_account = account.id_account)
+            where account.id_account = ? ",$aid)->fetchAll();
+    }
     public function addUserRoleById($login_name)
     {
         $id_account = $this->database
             ->table('account')
             ->select('id_account')
             ->where('login_name', $login_name)
-            ->fetch();   $user = $this->getUser();
-
-
+            ->fetch();
 
 
         $this->database
@@ -67,7 +69,18 @@ class MediPillAuthenticator implements Nette\Security\Authenticator
                 'id_role' => 1,
                 'id_account' => $id_account,
             ]);
+    }
 
-
+    public function checkUniqueEmail($email) : bool
+    {
+        $count = $this->database->table('account')
+            ->select('COUNT(*)')
+            ->where('email', $email)
+            ->fetch();
+        if($count > 0){
+            return false;
+        }else{
+            return true;
+        }
     }
 }

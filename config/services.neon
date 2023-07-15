@@ -9,4 +9,5 @@ search:
 services:
 	- App\Router\RouterFactory::createRouter
 	- App\Model\MediPillAuthenticator
+	- App\Forms\AuthorizationFactory::create
 
