@@ -1,17 +1,19 @@
-body{
+body {
     padding-top: 70px;
 }
-.card{
+
+.card {
     height: 100%;
 }
 
-.top_padding{
+.top_padding {
     padding-top: 30px;
 }
 
-.headline{
+.headline {
     color: #4926F9;
 }
+
 
 .button{
     padding: 12.5px 30px;
@@ -32,23 +34,8 @@ a.button {
     background-color: #4926F9;
     color: #ffffff;
     font-weight: bold;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    text-decoration: none; /* Optional, if you want to remove underline */
-}
-
-a.button:hover {
-    background-color: #5634fa;
-    box-shadow: 0 0 20px #6fc5ff50;
-    transform: scale(1.1);
-}
-
-a.button:active {
-    background-color: #5f42f1;
-    transition: all 0.25s;
-    -webkit-transition: all 0.25s;
-    box-shadow: none;
-    transform: scale(0.98);
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .icon-button {
@@ -60,7 +47,8 @@ a.button:active {
     background-color: transparent;
     cursor: pointer;
 }
-.icon-button:hover{
+
+.icon-button:hover {
     -webkit-transition: all 0.25s;
     transform: scale(1.1);
 }
@@ -71,8 +59,7 @@ a.button:active {
     fill: #000;
 }
 
-.icon-contact
-{
+.icon-contact {
     width: 50px;
     height: 50px;
     fill: #000;
@@ -102,6 +89,7 @@ a.button:active {
     flex: 0 0 calc(25% - 1rem);
     display: flex;
 }
+
 
 /* Custom CSS for the card */
 .my-card {
@@ -150,6 +138,8 @@ a.button:active {
 }
 
 /*************************************************BOXES********************************************/
+
+
 
 
 .flash-message {

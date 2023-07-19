@@ -1,0 +1,36 @@
+{layout '../layout.latte'}
+{block content}
+    <div  hx-target="this" hx-swap= "outerHTML">
+
+        <div class = "container">
+            <div class ="py-5">
+                {if $user->isInRole('user')}
+                    <p>Viditelný obsah pouze pro usera</p>
+                {/if}
+                <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+                <!-- From some reason hx-get works with bootstrap just fine but href doesn't -->
+                <a class="button"  hx-get = "{link Drug:add}">Add new prescription drug</a>
+                <table class = "table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope= "col">Drug Title</th>
+                        <th scope = "col" class ="text-center">Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr n:foreach="$patients as $patient" class="drug">
+                        <td> {$patient->first_name}</td>
+
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+
+{/block}

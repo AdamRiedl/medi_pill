@@ -11,13 +11,13 @@ class AuthorizationFactory
         $acl->addRole('user');
         $acl->addRole('doctor');
         $acl->addResource('tablecontents');
-        $acl->addResource('pacientcontents');
+        $acl->addResource('patientcontents');
 
         $acl->allow('user', 'tablecontents');
-        $acl->deny('user', 'pacientcontents');
+        $acl->deny('user', 'patientcontents');
 
         $acl->deny('doctor', 'tablecontents');
-        $acl->allow('doctor', 'pacientcontents');
+        $acl->allow('doctor', 'patientcontents');
 
         return $acl;
     }

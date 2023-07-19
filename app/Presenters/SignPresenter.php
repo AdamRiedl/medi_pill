@@ -59,7 +59,7 @@ final class SignPresenter extends Nette\Application\UI\Presenter
             $userRoles = $this->authenticator->getUserRoleById($userId);
             foreach ($userRoles as $userRole) {
                 if ($userRole->name === 'doctor') {
-                    $this->redirect('Doctor:pacientcontents');
+                    $this->redirect('Doctor:patientcontents');
                 }
                 elseif ($userRole->name === 'user') {
                     $this->redirect('Home:welcome');
