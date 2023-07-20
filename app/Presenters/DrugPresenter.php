@@ -8,10 +8,11 @@ use Contributte\FormsBootstrap\Enums;
 use App\Forms\DrugFormFactory;
 use App\Repositories\DataRepository;
 use App\Model\MediPillAuthenticator;
+use App\Presenters\BasePresenter;
 
 
 
-class DrugPresenter extends Nette\Application\UI\Presenter{
+class DrugPresenter extends \App\Presenters\BasePresenter {
 
 
     /**
@@ -34,18 +35,6 @@ class DrugPresenter extends Nette\Application\UI\Presenter{
         $this->authenticator = $authenticator;
     }
 
-
-    //TODO narvat to do basepresenteru
-    public function startup(): void
-    {
-        parent::startup();
-
-        if (!$this->getUser()->isLoggedIn() && !$this->presenter->isLinkCurrent('Sign:in'))
-        {
-            $this->flashMessage('This section is forbidden until logged');
-            $this->redirect("Sign:in");
-        }
-    }
 
     public function renderTableContents(): void
     {

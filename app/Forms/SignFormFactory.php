@@ -6,11 +6,18 @@ use Nette\Application\UI\Form;
 use Contributte\FormsBootstrap\BootstrapForm;
 use Contributte\FormsBootstrap\Enums;
 
+/*
+Class: SignFormFactory
+Třída která má za účel vytvářet formuláře pro sign-in a sign-on
+*/
 class SignFormFactory
 {
 
+    //Function: createSignInForm
+    // funkce vrací Form který se zkládá pouze z hesla a emailu protože nic jiného taky na login není potřeba
     public static function createSignInForm() : Form
     {
+        //TODO add forgot password
         BootstrapForm::switchBootstrapVersion(Enums\BootstrapVersion::V5);
         $form = new BootstrapForm;
         $form->addEmail('email', 'email')
@@ -24,6 +31,8 @@ class SignFormFactory
     }
 
 
+    //Function: createSignUpForm
+    //vrací Form který obsahuje všechny nutné věci pro úspěšnou registraci
     public static function createSignUpForm(): Form
     {
         BootstrapForm::switchBootstrapVersion(Enums\BootstrapVersion::V5);
@@ -49,15 +58,6 @@ class SignFormFactory
 
         return $form;
     }
-
-
-
-
-
-
-
-
-
 
 }
 

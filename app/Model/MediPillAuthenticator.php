@@ -54,6 +54,8 @@ class MediPillAuthenticator implements Nette\Security\Authenticator
             join account  on (account_role.id_account = account.id_account)
             where account.id_account = ? ",$aid)->fetchAll();
     }
+
+    //TODO redo whole account role system because in this solution i cannot track which doctor has which patient
     public function addUserRoleById($login_name)
     {
         $id_account = $this->database
@@ -71,16 +73,4 @@ class MediPillAuthenticator implements Nette\Security\Authenticator
             ]);
     }
 
-    public function checkUniqueEmail($email) : bool
-    {
-        $count = $this->database->table('account')
-            ->select('COUNT(*)')
-            ->where('email', $email)
-            ->fetch();
-        if($count > 0){
-            return false;
-        }else{
-            return true;
-        }
-    }
 }
