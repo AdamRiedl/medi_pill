@@ -55,7 +55,6 @@ class MediPillAuthenticator implements Nette\Security\Authenticator
             where account.id_account = ? ",$aid)->fetchAll();
     }
 
-    //TODO redo whole account role system because in this solution i cannot track which doctor has which patient
     public function addUserRoleById($login_name)
     {
         $id_account = $this->database

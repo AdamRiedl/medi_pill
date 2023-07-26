@@ -8,3 +8,4 @@ services:
     - App\Repositories\NewsRepository
     - App\Presenters\SignPresenter
     - App\Forms\SignFormFactory
+    - App\Repositories\DoctorRepository
