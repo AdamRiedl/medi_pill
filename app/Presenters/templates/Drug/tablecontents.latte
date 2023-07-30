@@ -1,20 +1,20 @@
 {layout '../layout.latte'}
 {block content}
-    <div  hx-target="this" hx-swap= "outerHTML">
+    <div hx-target="this" hx-swap="outerHTML">
 
-        <div class = "container">
-            <div class ="py-5">
+        <div class="container">
+            <div class="py-5">
                 {if $user->isInRole('user')}
                     <p>Viditelný obsah pouze pro usera</p>
                 {/if}
                 <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
                 <!-- From some reason hx-get works with bootstrap just fine but href doesn't -->
-                <a class="button"  hx-get = "{link Drug:add}">Add new prescription drug</a>
-                <table class = "table table-striped">
+                <a class="button" hx-get="{link Drug:add}">Add new prescription drug</a>
+                <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope= "col">Drug Title</th>
-                        <th scope = "col" class ="text-center">Action</th>
+                        <th scope="col">Drug Title</th>
+                        <th scope="col" class="text-center">Action</th>
                     </tr>
                     </thead>
 
@@ -23,19 +23,20 @@
                     <tr n:foreach="$drugs as $drug" class="drug">
                         <td> {$drug->name}</td>
 
-                        <td class = "text-center">
+                        <td class="text-center">
                             <!-- From some reason hx-get works with bootstrap just fine but href doesn't -->
-                            <a class="icon-button" hx-get = " {link Drug:show $drug->id_drug} ">
+                            <a class="icon-button" hx-get=" {link Drug:show $drug->id_drug} ">
                                 <img class="icon" src="{$basePath}/img/view_icon.png" alt="View Icon">
                             </a>
                             <!-- From some reason hx-get works with bootstrap just fine but href doesn't -->
 
-                            <button class="icon-button" hx-get = " {link Drug:edit $drug->id_drug}">
-                                <img class="icon"  src="{$basePath}/img/edit_icon.png" alt="Edit Icon">
+                            <button class="icon-button" hx-get=" {link Drug:edit $drug->id_drug}">
+                                <img class="icon" src="{$basePath}/img/edit_icon.png" alt="Edit Icon">
                             </button>
                             <!-- From some reason hx-get works with bootstrap just fine but href doesn't -->
 
-                            <button class="icon-button" hx-get="{link Drug:delete, $drug->id_drug}" onclick="showConfirmation()">
+                            <button class="icon-button" hx-get="{link Drug:delete, $drug->id_drug}"
+                                    onclick="showConfirmation()">
                                 <img class="icon" src="{$basePath}/img/delete_icon.png" alt="Delete Icon">
                             </button>
 

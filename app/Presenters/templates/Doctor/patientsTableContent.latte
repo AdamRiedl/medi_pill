@@ -1,0 +1,44 @@
+<head>
+    <link rel="stylesheet" href="{$basePath}/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+</head>
+
+<div hx-target="this" hx-swap="outerHTML" class="py-5">
+    <div class="container">
+
+
+        <div class="table">
+            <div class="headline2">Patients that don't have any doctors assigned</div>
+            <div class="thead">
+                <div class="tr">
+                    <div class="th">First Name</div>
+                    <div class="th">Last Name</div>
+                </div>
+            </div>
+
+            <!-- Table body -->
+            <div class="tbody" n:foreach="$patiensWithoutDoc as $patientWithoutDoc">
+                <div class="tr">
+                    <div class="td">
+                        {$patientWithoutDoc->first_name}
+                    </div>
+                    <div class="td">
+                        {$patientWithoutDoc->second_name}
+                    </div>
+                    <div class="td">
+                        {$patientWithoutDoc->email}
+                    </div>
+                    <div class="td">
+                        {$patientWithoutDoc->phone_primary}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div><a class="button" href="{link Doctor:decisionBoard}">Back to panel</a></div>
+
+    </div>
+
+

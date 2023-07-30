@@ -23,6 +23,11 @@ class DoctorPresenter extends BasePresenter
         $this->template->patientsWithCurrentDoc = $this->doctorRepositoryInt->getAllPatientsWithCurrentDoctor($this->getUser()->getId());
     }
 
+    public function renderpatientsTableContent(): void
+    {
+        $this->template->patiensWithoutDoc = $this->doctorRepositoryInt->getAllPatientsWithoutDoctor();
+    }
+
 
 
 
